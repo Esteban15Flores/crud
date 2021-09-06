@@ -14,11 +14,16 @@ use App\Http\Controllers\UsuarioController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
-Route::resource('usuario', UsuarioController::class);
+Route::resource('usuario', UsuarioController::class)->middleware('auth');
 
-Auth::routes();
+Auth::routes(['register'=>false, 'reset'=>false]);
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [UsuarioController::class, 'index'])->name('home');
+
+Route::group(['middleware' => 'auth'],function () {
+    Route::get('/', [UsuarioController::class, 'index'])->name('home');
+
+});
