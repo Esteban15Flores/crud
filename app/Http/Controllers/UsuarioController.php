@@ -54,7 +54,8 @@ class UsuarioController extends Controller
 
         $datos= request()->except('_token');
         Usuario::insert($datos); 
-        return response()->json($datos);
+      //  return response()->json($datos);
+      return redirect('usuario')->with('mensaje','Registro Creado');
     }
 
     /**
@@ -106,7 +107,7 @@ class UsuarioController extends Controller
         Usuario::where('id','=',$id)->update($datos);
         $usuario = Usuario::findOrFail($id);
        // return view('usuario.edit', compact('usuario'));
-       return redirect('usuario')->with('mensaje','Usuario Modificado');
+       return redirect('usuario')->with('mensaje','Registro Modificado');
 
     }
 
@@ -120,6 +121,6 @@ class UsuarioController extends Controller
     {
         //
         Usuario::destroy($id);
-        return redirect('usuario')->with('mensaje','Usuario Borrado');
+        return redirect('usuario')->with('mensaje','Registro Eliminado');
     }
 }
