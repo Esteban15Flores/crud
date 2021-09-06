@@ -2,7 +2,19 @@
 @section('content')
 <div class="container">
 
-<a href="{{ url('/usuario/create') }}">Crear registro</a>
+@if(Session::has('mensaje'))
+<div class="alert alert-success alert-dismissible" role="alert">
+
+{{ Session::get('mensaje') }}
+<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+</button>
+</div>
+@endif
+
+<a href="{{ url('/usuario/create') }}" class="btn btn-success">Crear registro</a>
+<br>
+<br>
 <table class="table table light">
 
     <thead class="thead-light">
@@ -27,13 +39,13 @@
             <td>{{ $usuario->dosis }}</td>
             <td>{{ $usuario->created_at }}</td>
             <td>
-                <a href="{{ url('/usuario/'.$usuario->id.'/edit') }}">Editar</a>    
+                <a href="{{ url('/usuario/'.$usuario->id.'/edit') }}" class="btn btn-primary">Editar</a>    
              | 
                 
-                <form action="{{ url('/usuario/'.$usuario->id) }}" method="post">
+                <form action="{{ url('/usuario/'.$usuario->id) }}" class="d-inline" method="post">
                 @csrf
                 {{ method_field('DELETE') }}
-                    <input type="submit" onclick="return confirm('¿Quieres borrar?')" value="Borrar">
+                    <input class="btn btn-danger" type="submit" onclick="return confirm('¿Quieres borrar?')" value="Borrar">
 
                 </form>
             </td>

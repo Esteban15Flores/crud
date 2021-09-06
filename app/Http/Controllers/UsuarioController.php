@@ -40,6 +40,18 @@ class UsuarioController extends Controller
     {
         // $datos= request()->all();
        
+        $campos=[
+            'nombre'=>'required|string|max:100',
+            'correo'=>'required|email',
+            'curp'=>'required|string|max:100',
+            'dosis'=>'required|string|max:100',
+        ];
+        $mensaje=[
+            'required'=>'El :attribute es requerido',
+            'dosis.required'=>'La dosis es requerida'
+        ];
+        $this->validate($request, $campos, $mensaje);
+
         $datos= request()->except('_token');
         Usuario::insert($datos); 
         return response()->json($datos);
@@ -78,11 +90,24 @@ class UsuarioController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $campos=[
+            'nombre'=>'required|string|max:100',
+            'correo'=>'required|email',
+            'curp'=>'required|string|max:100',
+            'dosis'=>'required|string|max:100',
+        ];
+        $mensaje=[
+            'required'=>'El :attribute es requerido',
+            'dosis.required'=>'La dosis es requerida'
+        ];
+        $this->validate($request, $campos, $mensaje);
         //
         $datos= request()->except(['_method','_token']);
         Usuario::where('id','=',$id)->update($datos);
         $usuario = Usuario::findOrFail($id);
-        return view('usuario.edit', compact('usuario'));
+       // return view('usuario.edit', compact('usuario'));
+       return redirect('usuario')->with('mensaje','Usuario Modificado');
+
     }
 
     /**
@@ -95,6 +120,6 @@ class UsuarioController extends Controller
     {
         //
         Usuario::destroy($id);
-        return redirect('usuario');
+        return redirect('usuario')->with('mensaje','Usuario Borrado');
     }
 }
