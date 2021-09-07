@@ -15,7 +15,7 @@ class UsuarioController extends Controller
     public function index()
     {
         //
-        $datoss['usuarios']=Usuario::paginate(5);
+        $datoss['usuarios']=Usuario::paginate();
         return view('usuario.index', $datoss);
     }
 
@@ -122,5 +122,12 @@ class UsuarioController extends Controller
         //
         Usuario::destroy($id);
         return redirect('usuario')->with('mensaje','Registro Eliminado');
+    }
+
+    public function opciones()
+    {
+        //
+        $datoss['usuarios']=Usuario::paginate(5);
+        return view('usuario.index', $datoss);
     }
 }
